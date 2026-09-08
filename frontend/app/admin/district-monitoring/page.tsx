@@ -46,12 +46,14 @@ export default function DistrictMonitoringPage() {
                 key={d.name}
                 onClick={() => setSelected(d.name)}
                 className={`flex w-full items-center justify-between rounded-xl border p-3 text-left transition-colors ${
-                  selected === d.name ? "border-primary-300 bg-primary-50" : "border-slate-100 hover:bg-slate-50"
+                  selected === d.name
+                    ? "border-primary-300 bg-primary-50 dark:border-primary-500/30 dark:bg-primary-500/10"
+                    : "border-slate-100 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/60"
                 }`}
               >
                 <div>
-                  <p className="text-sm font-semibold text-slate-700">{d.name}</p>
-                  <p className="text-[10px] text-slate-400">{d.farmCount} farms · avg moisture {d.avgMoisture}%</p>
+                  <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">{d.name}</p>
+                  <p className="text-[10px] text-slate-400 dark:text-slate-500">{d.farmCount} farms · avg moisture {d.avgMoisture}%</p>
                 </div>
                 <Badge variant={d.riskLevel}>{d.riskLevel}</Badge>
               </button>
@@ -76,9 +78,9 @@ export default function DistrictMonitoringPage() {
 
 function StatBox({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center">
-      <p className="text-2xl font-bold text-slate-800">{value}</p>
-      <p className="mt-1 text-xs text-slate-400">{label}</p>
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center dark:border-slate-800 dark:bg-slate-900">
+      <p className="text-2xl font-bold text-slate-800 dark:text-slate-100">{value}</p>
+      <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">{label}</p>
     </div>
   );
 }

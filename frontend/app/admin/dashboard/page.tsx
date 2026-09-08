@@ -57,7 +57,7 @@ export default function AdminDashboardPage() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle>Live Alert Feed</CardTitle>
-              <a href="/admin/community-alerts" className="flex items-center gap-1 text-xs font-semibold text-primary-600">
+              <a href="/admin/community-alerts" className="flex items-center gap-1 text-xs font-semibold text-primary-600 dark:text-primary-400">
                 View all <ArrowRight className="h-3 w-3" />
               </a>
             </div>
@@ -66,11 +66,11 @@ export default function AdminDashboardPage() {
             {ALERTS.slice(0, 5).map((a) => {
               const rc = riskColor(a.severity);
               return (
-                <div key={a.id} className="flex items-start gap-2.5 rounded-xl border border-slate-100 p-2.5">
+                <div key={a.id} className="flex items-start gap-2.5 rounded-xl border border-slate-100 p-2.5 dark:border-slate-800">
                   <span className={`mt-1 h-2 w-2 shrink-0 rounded-full ${rc.dot}`} />
                   <div className="min-w-0">
-                    <p className="truncate text-xs font-semibold text-slate-700">{a.title}</p>
-                    <p className="text-[10px] text-slate-400">{a.district} · {a.timestamp}</p>
+                    <p className="truncate text-xs font-semibold text-slate-700 dark:text-slate-200">{a.title}</p>
+                    <p className="text-[10px] text-slate-400 dark:text-slate-500">{a.district} · {a.timestamp}</p>
                   </div>
                   <Badge variant={a.severity} className="ml-auto shrink-0">{a.severity}</Badge>
                 </div>

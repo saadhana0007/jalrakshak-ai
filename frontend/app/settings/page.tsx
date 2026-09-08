@@ -48,8 +48,8 @@ export default function SettingsPage() {
           </CardHeader>
           <CardContent className="space-y-3 pt-0">
             {Object.entries(notifs).map(([key, value]) => (
-              <label key={key} className="flex items-center justify-between rounded-xl border border-slate-100 p-3">
-                <span className="text-sm capitalize text-slate-600">{key} alerts</span>
+              <label key={key} className="flex items-center justify-between rounded-xl border border-slate-100 p-3 dark:border-slate-800">
+                <span className="text-sm capitalize text-slate-600 dark:text-slate-300">{key} alerts</span>
                 <input
                   type="checkbox"
                   checked={value}
@@ -68,9 +68,9 @@ export default function SettingsPage() {
           </CardHeader>
           <CardContent className="space-y-2 pt-0">
             {["Soil Moisture Sensor — Plot 1", "Weather Station — Farmhouse"].map((d) => (
-              <div key={d} className="flex items-center justify-between rounded-xl border border-slate-100 p-3 text-sm text-slate-600">
+              <div key={d} className="flex items-center justify-between rounded-xl border border-slate-100 p-3 dark:border-slate-800 text-sm text-slate-600 dark:text-slate-300">
                 {d}
-                <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-600">Online</span>
+                <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400">Online</span>
               </div>
             ))}
           </CardContent>

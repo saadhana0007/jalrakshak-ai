@@ -31,7 +31,7 @@ export default function AdminSettingsPage() {
                     onChange={(e) => setThresholds((t) => ({ ...t, [key]: Number(e.target.value) }))}
                     className="flex-1"
                   />
-                  <span className="w-10 text-right text-xs font-semibold text-slate-600">{value}</span>
+                  <span className="w-10 text-right text-xs font-semibold text-slate-600 dark:text-slate-300">{value}</span>
                 </div>
               </div>
             ))}
@@ -49,9 +49,9 @@ export default function AdminSettingsPage() {
               { role: "Farmer", access: "Dashboard, Farms, Advisor, Digital Twin, Climate Risk, Satellite, Community, Alerts, Reports, Settings" },
               { role: "Admin", access: "All Farmer modules + Executive Dashboard, District Monitoring, Farmer Management, Analytics" },
             ].map((r) => (
-              <div key={r.role} className="rounded-xl border border-slate-100 p-3">
-                <p className="text-sm font-bold text-slate-700">{r.role}</p>
-                <p className="mt-1 text-xs text-slate-400">{r.access}</p>
+              <div key={r.role} className="rounded-xl border border-slate-100 p-3 dark:border-slate-800">
+                <p className="text-sm font-bold text-slate-700 dark:text-slate-200">{r.role}</p>
+                <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">{r.access}</p>
               </div>
             ))}
           </CardContent>
@@ -64,9 +64,9 @@ export default function AdminSettingsPage() {
           </CardHeader>
           <CardContent className="space-y-2 pt-0">
             {["IMD Weather API", "Sentinel-2 Satellite Feed", "IoT Soil Moisture Network", "CGWB Groundwater Database"].map((s) => (
-              <div key={s} className="flex items-center justify-between rounded-xl border border-slate-100 p-3 text-sm text-slate-600">
+              <div key={s} className="flex items-center justify-between rounded-xl border border-slate-100 p-3 text-sm text-slate-600 dark:border-slate-800 dark:text-slate-300">
                 {s}
-                <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-600">Connected</span>
+                <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400">Connected</span>
               </div>
             ))}
           </CardContent>

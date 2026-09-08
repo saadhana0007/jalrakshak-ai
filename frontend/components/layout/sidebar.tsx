@@ -43,14 +43,14 @@ export default function Sidebar({ role }: { role: "farmer" | "admin" }) {
   const nav = role === "farmer" ? farmerNav : adminNav;
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-slate-200/70 bg-white/90 backdrop-blur lg:flex">
+    <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-slate-200/70 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-900/90 lg:flex">
       <div className="flex items-center gap-2 px-5 py-5">
         <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 text-white shadow-soft">
           <Leaf className="h-5 w-5" />
         </div>
         <div>
-          <p className="text-sm font-bold leading-tight text-slate-800">JalRakshak AI</p>
-          <p className="text-[10px] font-medium uppercase tracking-wide text-slate-400">
+          <p className="text-sm font-bold leading-tight text-slate-800 dark:text-slate-100">JalRakshak AI</p>
+          <p className="text-[10px] font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">
             {role === "farmer" ? "Farmer Console" : "Admin Console"}
           </p>
         </div>
@@ -67,32 +67,32 @@ export default function Sidebar({ role }: { role: "farmer" | "admin" }) {
               className={cn(
                 "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
                 active
-                  ? "bg-primary-50 text-primary-700"
-                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  ? "bg-primary-50 text-primary-700 dark:bg-primary-500/10 dark:text-primary-300"
+                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
               )}
             >
-              <Icon className={cn("h-4 w-4", active ? "text-primary-600" : "text-slate-400")} />
+              <Icon className={cn("h-4 w-4", active ? "text-primary-600 dark:text-primary-400" : "text-slate-400 dark:text-slate-500")} />
               {item.label}
             </Link>
           );
         })}
       </nav>
 
-      <div className="border-t border-slate-200/70 p-3">
-        <div className="flex items-center gap-3 rounded-xl bg-slate-50 px-3 py-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 text-xs font-bold text-primary-700">
+      <div className="border-t border-slate-200/70 p-3 dark:border-slate-800">
+        <div className="flex items-center gap-3 rounded-xl bg-slate-50 px-3 py-2.5 dark:bg-slate-800/60">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 text-xs font-bold text-primary-700 dark:bg-primary-500/20 dark:text-primary-300">
             {userName?.[0]?.toUpperCase() ?? "U"}
           </div>
           <div className="flex-1 overflow-hidden">
-            <p className="truncate text-xs font-semibold text-slate-700">{userName || "User"}</p>
-            <p className="text-[10px] text-slate-400 capitalize">{role}</p>
+            <p className="truncate text-xs font-semibold text-slate-700 dark:text-slate-200">{userName || "User"}</p>
+            <p className="text-[10px] text-slate-400 capitalize dark:text-slate-500">{role}</p>
           </div>
           <button
             onClick={() => {
               logout();
               router.push("/");
             }}
-            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-200 hover:text-slate-700"
+            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-200 hover:text-slate-700 dark:text-slate-500 dark:hover:bg-slate-700 dark:hover:text-slate-200"
             title="Log out"
           >
             <LogOut className="h-4 w-4" />

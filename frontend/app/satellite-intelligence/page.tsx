@@ -44,12 +44,12 @@ export default function SatelliteIntelligencePage() {
                 <CardTitle>Satellite Layer View</CardTitle>
                 <CardDescription>Simulated {layer.toUpperCase()} raster for the {timeIdx + 1 === TIMELINE.length ? "current" : TIMELINE[timeIdx]} pass</CardDescription>
               </div>
-              <div className="flex gap-1 rounded-xl bg-slate-100 p-1">
+              <div className="flex gap-1 rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
                 {(["ndvi", "ndwi"] as const).map((l) => (
                   <button
                     key={l}
                     onClick={() => setLayer(l)}
-                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold ${layer === l ? "bg-white text-primary-700 shadow-soft" : "text-slate-500"}`}
+                    className={`rounded-lg px-3 py-1.5 text-xs font-semibold ${layer === l ? "bg-white text-primary-700 shadow-soft dark:bg-slate-700 dark:text-primary-300" : "text-slate-500 dark:text-slate-400"}`}
                   >
                     {l.toUpperCase()}
                   </button>
@@ -60,7 +60,7 @@ export default function SatelliteIntelligencePage() {
           <CardContent className="pt-0">
             <NdviGrid mode={layer} seed={timeIdx + 1} />
             <div className="mt-4 flex items-center gap-3">
-              <Calendar className="h-4 w-4 text-slate-400" />
+              <Calendar className="h-4 w-4 text-slate-400 dark:text-slate-500" />
               <input
                 type="range"
                 min={0}
@@ -69,9 +69,9 @@ export default function SatelliteIntelligencePage() {
                 onChange={(e) => setTimeIdx(Number(e.target.value))}
                 className="flex-1"
               />
-              <span className="w-10 text-xs font-semibold text-slate-500">{TIMELINE[timeIdx]}</span>
+              <span className="w-10 text-xs font-semibold text-slate-500 dark:text-slate-400">{TIMELINE[timeIdx]}</span>
             </div>
-            <div className="mt-3 flex items-center justify-between text-[10px] text-slate-400">
+            <div className="mt-3 flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500">
               <span>Low</span>
               <span className="flex items-center gap-1"><Satellite className="h-3 w-3" /> Sentinel-2 simulated composite</span>
               <span>High</span>

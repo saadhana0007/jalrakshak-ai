@@ -25,7 +25,7 @@ export default function FarmsPage() {
     <DashboardShell role="farmer" title="My Farms" subtitle="Manage registered farms and their profiles">
       <div className="mb-5 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
         <div className="relative w-full max-w-xs">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 dark:text-slate-500" />
           <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search farms…" className="pl-9" />
         </div>
         <Link href="/farms/register">
@@ -41,19 +41,19 @@ export default function FarmsPage() {
             <CardContent className="p-5">
               <div className="mb-3 flex items-start justify-between">
                 <div>
-                  <p className="text-xs font-semibold text-slate-400">{f.id}</p>
-                  <h3 className="text-sm font-bold text-slate-800">{f.village}</h3>
+                  <p className="text-xs font-semibold text-slate-400 dark:text-slate-500">{f.id}</p>
+                  <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100">{f.village}</h3>
                 </div>
                 <Badge variant={f.riskLevel}>{f.riskLevel} risk</Badge>
               </div>
-              <div className="space-y-1.5 text-xs text-slate-500">
+              <div className="space-y-1.5 text-xs text-slate-500 dark:text-slate-400">
                 <p className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" /> {f.district}, {f.state}</p>
                 <p className="flex items-center gap-1.5"><Sprout className="h-3.5 w-3.5" /> {f.cropType} · {f.areaAcres} acres</p>
                 <p className="flex items-center gap-1.5"><Droplets className="h-3.5 w-3.5" /> Moisture {f.soilMoisture}% · {f.irrigationMethod}</p>
               </div>
               <button
                 onClick={() => setSelectedFarmId(f.id)}
-                className="mt-4 w-full rounded-xl border border-slate-200 py-2 text-xs font-semibold text-primary-700 hover:bg-primary-50"
+                className="mt-4 w-full rounded-xl border border-slate-200 py-2 text-xs font-semibold text-primary-700 hover:bg-primary-50 dark:border-slate-700 dark:text-primary-400 dark:hover:bg-primary-500/10"
               >
                 Set as Active Farm
               </button>

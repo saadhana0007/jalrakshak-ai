@@ -122,14 +122,14 @@ export default function DigitalTwinPage() {
 
   return (
     <DashboardShell role="farmer" title="Farm Digital Twin" subtitle="Simulate irrigation futures before you commit water">
-      <div className="mb-6 flex items-center justify-between rounded-2xl border border-accent-200 bg-gradient-to-r from-accent-50 to-primary-50 p-5">
+      <div className="mb-6 flex items-center justify-between rounded-2xl border border-accent-200 bg-gradient-to-r from-accent-50 to-primary-50 p-5 dark:border-accent-500/20 dark:from-accent-500/10 dark:to-primary-500/10">
         <div className="flex items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-accent-600 to-primary-600 text-white">
             <GitBranch className="h-5 w-5" />
           </div>
           <div>
-            <p className="text-sm font-bold text-slate-800">{farm.id} — {farm.village}, {farm.district}</p>
-            <p className="text-xs text-slate-500">{farm.cropType} · {farm.areaAcres} acres · Soil moisture {farm.soilMoisture}%</p>
+            <p className="text-sm font-bold text-slate-800 dark:text-slate-100">{farm.id} — {farm.village}, {farm.district}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{farm.cropType} · {farm.areaAcres} acres · Soil moisture {farm.soilMoisture}%</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -162,11 +162,11 @@ export default function DigitalTwinPage() {
                 </div>
               )}
               <CardContent className="p-5">
-                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300">
                   <Icon className="h-5 w-5" />
                 </div>
-                <p className="text-xs font-bold uppercase text-slate-400">Scenario {SCENARIO_LETTER[s.id] ?? "-"}</p>
-                <h3 className="mb-3 text-base font-bold text-slate-800">{s.name}</h3>
+                <p className="text-xs font-bold uppercase text-slate-400 dark:text-slate-500">Scenario {SCENARIO_LETTER[s.id] ?? "-"}</p>
+                <h3 className="mb-3 text-base font-bold text-slate-800 dark:text-slate-100">{s.name}</h3>
                 <div className="space-y-2 text-xs">
                   <Row icon={Droplets} label="Water" value={`${s.waterLitres.toLocaleString("en-IN")} L`} />
                   <Row icon={IndianRupee} label="Cost" value={`₹${s.costInr.toLocaleString("en-IN")}`} />
@@ -176,8 +176,8 @@ export default function DigitalTwinPage() {
                   <Row icon={Sprout} label="Yield Prediction" value={`${s.yieldPredictionPct}%`} />
                   <Row icon={Leaf} label="Carbon Impact" value={`${s.carbonKgCo2} kg CO₂`} />
                 </div>
-                <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
-                  <span className="text-[10px] font-medium uppercase text-slate-400">Sustainability Rank</span>
+                <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-800">
+                  <span className="text-[10px] font-medium uppercase text-slate-400 dark:text-slate-500">Sustainability Rank</span>
                   <Badge variant={s.rank === 1 ? "low" : s.rank === 2 ? "medium" : "neutral"}>#{s.rank}</Badge>
                 </div>
               </CardContent>
@@ -226,10 +226,10 @@ export default function DigitalTwinPage() {
 function Row({ icon: Icon, label, value }: { icon: any; label: string; value: string }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="flex items-center gap-1.5 text-slate-500">
+      <span className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
         <Icon className="h-3.5 w-3.5" /> {label}
       </span>
-      <span className="font-semibold text-slate-700">{value}</span>
+      <span className="font-semibold text-slate-700 dark:text-slate-200">{value}</span>
     </div>
   );
 }

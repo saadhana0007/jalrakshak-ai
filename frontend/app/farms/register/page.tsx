@@ -50,11 +50,11 @@ export default function FarmRegisterPage() {
         <CardContent className="pt-0">
           {saved ? (
             <div className="flex flex-col items-center gap-3 py-10 text-center">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400">
                 <Sprout className="h-7 w-7" />
               </div>
-              <p className="text-sm font-bold text-slate-700">Farm saved successfully</p>
-              <p className="text-xs text-slate-400">Redirecting to your farms list…</p>
+              <p className="text-sm font-bold text-slate-700 dark:text-slate-200">Farm saved successfully</p>
+              <p className="text-xs text-slate-400 dark:text-slate-500">Redirecting to your farms list…</p>
             </div>
           ) : (
             <form onSubmit={submit} className="grid grid-cols-1 gap-4 sm:grid-cols-2">

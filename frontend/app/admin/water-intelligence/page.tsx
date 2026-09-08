@@ -42,10 +42,10 @@ export default function WaterIntelligencePage() {
           </CardHeader>
           <CardContent className="space-y-2.5 pt-0">
             {emergingZones.map((d) => (
-              <div key={d.name} className="flex items-center justify-between rounded-xl border border-slate-100 p-3">
+              <div key={d.name} className="flex items-center justify-between rounded-xl border border-slate-100 p-3 dark:border-slate-800">
                 <div>
-                  <p className="text-sm font-semibold text-slate-700">{d.name}</p>
-                  <p className="text-[10px] text-slate-400">{d.state}</p>
+                  <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">{d.name}</p>
+                  <p className="text-[10px] text-slate-400 dark:text-slate-500">{d.state}</p>
                 </div>
                 <Badge variant={d.riskLevel}>{d.stressPct}%</Badge>
               </div>
@@ -63,12 +63,12 @@ export default function WaterIntelligencePage() {
           </CardHeader>
           <CardContent className="space-y-2.5 pt-0">
             {groundwaterZones.map((d) => (
-              <div key={d.name} className="flex items-center justify-between rounded-xl border border-slate-100 p-3">
+              <div key={d.name} className="flex items-center justify-between rounded-xl border border-slate-100 p-3 dark:border-slate-800">
                 <div className="flex items-center gap-2">
                   <Waves className="h-4 w-4 text-accent-500" />
-                  <span className="text-sm font-semibold text-slate-700">{d.name}</span>
+                  <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{d.name}</span>
                 </div>
-                <span className="text-xs font-medium text-slate-500">{d.avgMoisture}% moisture</span>
+                <span className="text-xs font-medium text-slate-500 dark:text-slate-400">{d.avgMoisture}% moisture</span>
               </div>
             ))}
           </CardContent>

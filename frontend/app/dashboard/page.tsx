@@ -92,38 +92,38 @@ export default function FarmerDashboardPage() {
 
         {/* RECOMMENDATION + ALERTS */}
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
-          <Card className="lg:col-span-2 overflow-hidden border-primary-200 bg-gradient-to-br from-primary-50 via-white to-accent-50">
+          <Card className="lg:col-span-2 overflow-hidden border-primary-200 bg-gradient-to-br from-primary-50 via-white to-accent-50 dark:border-primary-500/20 dark:from-primary-500/10 dark:via-slate-900 dark:to-accent-500/10">
             <CardContent className="p-6">
               <div className="flex items-center gap-2">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600 text-white">
                   <Sparkles className="h-4 w-4" />
                 </div>
-                <p className="text-xs font-bold uppercase tracking-wide text-primary-700">Today's Recommendation</p>
+                <p className="text-xs font-bold uppercase tracking-wide text-primary-700 dark:text-primary-400">Today's Recommendation</p>
                 <Badge variant={weather ? "default" : "neutral"} className="ml-auto gap-1">
                   <Satellite className="h-3 w-3" /> {weather ? "Live weather" : "Simulated"}
                 </Badge>
               </div>
-              <h2 className="mt-3 text-2xl font-extrabold text-slate-800">{recommendation.decision}</h2>
-              <p className="mt-1 text-sm text-slate-500">{recommendation.reasoning}</p>
+              <h2 className="mt-3 text-2xl font-extrabold text-slate-800 dark:text-slate-100">{recommendation.decision}</h2>
+              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{recommendation.reasoning}</p>
               <div className="mt-5 grid grid-cols-3 gap-4">
                 <div>
-                  <p className="text-[11px] font-medium uppercase text-slate-400">Expected Rain</p>
-                  <p className="mt-0.5 text-lg font-bold text-slate-800">{next14hRain}mm <span className="text-xs font-medium text-slate-400">in 14h</span></p>
+                  <p className="text-[11px] font-medium uppercase text-slate-400 dark:text-slate-500">Expected Rain</p>
+                  <p className="mt-0.5 text-lg font-bold text-slate-800 dark:text-slate-100">{next14hRain}mm <span className="text-xs font-medium text-slate-400 dark:text-slate-500">in 14h</span></p>
                 </div>
                 <div>
-                  <p className="text-[11px] font-medium uppercase text-slate-400">Water Saved</p>
-                  <p className="mt-0.5 text-lg font-bold text-emerald-600">{recommendation.waterSavedLitres.toLocaleString("en-IN")} L</p>
+                  <p className="text-[11px] font-medium uppercase text-slate-400 dark:text-slate-500">Water Saved</p>
+                  <p className="mt-0.5 text-lg font-bold text-emerald-600 dark:text-emerald-400">{recommendation.waterSavedLitres.toLocaleString("en-IN")} L</p>
                 </div>
                 <div>
-                  <p className="text-[11px] font-medium uppercase text-slate-400">Confidence</p>
-                  <p className="mt-0.5 text-lg font-bold text-slate-800">{recommendation.confidencePct}%</p>
+                  <p className="text-[11px] font-medium uppercase text-slate-400 dark:text-slate-500">Confidence</p>
+                  <p className="mt-0.5 text-lg font-bold text-slate-800 dark:text-slate-100">{recommendation.confidencePct}%</p>
                 </div>
               </div>
               <div className="mt-5 flex items-center gap-3">
                 <a href="/irrigation-advisor" className="inline-flex items-center gap-1.5 rounded-xl bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-700">
                   Open Irrigation Advisor <ArrowRight className="h-3.5 w-3.5" />
                 </a>
-                <a href="/digital-twin" className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50">
+                <a href="/digital-twin" className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800">
                   Simulate in Digital Twin
                 </a>
               </div>
@@ -139,11 +139,11 @@ export default function FarmerDashboardPage() {
               {ALERTS.slice(0, 4).map((a) => {
                 const c = riskColor(a.severity);
                 return (
-                  <div key={a.id} className="flex items-start gap-2.5 rounded-xl border border-slate-100 p-2.5 hover:bg-slate-50">
+                  <div key={a.id} className="flex items-start gap-2.5 rounded-xl border border-slate-100 p-2.5 hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800/60">
                     <span className={`mt-1 h-2 w-2 shrink-0 rounded-full ${c.dot}`} />
                     <div className="min-w-0">
-                      <p className="truncate text-xs font-semibold text-slate-700">{a.title}</p>
-                      <p className="text-[10px] text-slate-400">{a.district} · {a.timestamp}</p>
+                      <p className="truncate text-xs font-semibold text-slate-700 dark:text-slate-200">{a.title}</p>
+                      <p className="text-[10px] text-slate-400 dark:text-slate-500">{a.district} · {a.timestamp}</p>
                     </div>
                   </div>
                 );
@@ -193,13 +193,13 @@ export default function FarmerDashboardPage() {
               { title: "Switch to drip irrigation on Plot 2", detail: "Could reduce water use by up to 30%.", badge: "efficiency" },
               { title: "Monitor NDWI on the east block", detail: "Early signs of water stress detected.", badge: "watch" },
             ].map((r) => (
-              <div key={r.title} className="rounded-xl border border-slate-100 p-4">
-                <div className="mb-2 flex items-center gap-1.5 text-emerald-600">
+              <div key={r.title} className="rounded-xl border border-slate-100 p-4 dark:border-slate-800">
+                <div className="mb-2 flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
                   <CheckCircle2 className="h-4 w-4" />
                   <Badge variant="default">{r.badge}</Badge>
                 </div>
-                <p className="text-sm font-semibold text-slate-700">{r.title}</p>
-                <p className="mt-1 text-xs text-slate-400">{r.detail}</p>
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">{r.title}</p>
+                <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">{r.detail}</p>
               </div>
             ))}
           </CardContent>

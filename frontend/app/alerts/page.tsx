@@ -34,16 +34,22 @@ export default function AlertsPage() {
             key={c.key}
             onClick={() => setCategory(c.key)}
             className={`flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-semibold transition-colors ${
-              category === c.key ? "bg-primary-600 text-white" : "border border-slate-200 bg-white text-slate-500 hover:bg-slate-50"
+              category === c.key
+                ? "bg-primary-600 text-white"
+                : "border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800"
             }`}
           >
             <c.icon className="h-3.5 w-3.5" /> {c.label}
           </button>
         ))}
-        <span className="mx-2 h-5 w-px bg-slate-200" />
+        <span className="mx-2 h-5 w-px bg-slate-200 dark:bg-slate-800" />
         <button
           onClick={() => setSeverity("all")}
-          className={`rounded-xl px-3 py-2 text-xs font-semibold ${severity === "all" ? "bg-slate-800 text-white" : "border border-slate-200 bg-white text-slate-500"}`}
+          className={`rounded-xl px-3 py-2 text-xs font-semibold ${
+            severity === "all"
+              ? "bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900"
+              : "border border-slate-200 bg-white text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400"
+          }`}
         >
           All Severities
         </button>
@@ -52,7 +58,9 @@ export default function AlertsPage() {
             key={s}
             onClick={() => setSeverity(s)}
             className={`rounded-xl px-3 py-2 text-xs font-semibold capitalize ${
-              severity === s ? "bg-slate-800 text-white" : "border border-slate-200 bg-white text-slate-500"
+              severity === s
+                ? "bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900"
+                : "border border-slate-200 bg-white text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400"
             }`}
           >
             {s}
@@ -62,7 +70,7 @@ export default function AlertsPage() {
 
       <div className="space-y-3">
         {filtered.length === 0 && (
-          <Card><CardContent className="p-8 text-center text-sm text-slate-400">No alerts match these filters.</CardContent></Card>
+          <Card><CardContent className="p-8 text-center text-sm text-slate-400 dark:text-slate-500">No alerts match these filters.</CardContent></Card>
         )}
         {filtered.map((a) => {
           const rc = riskColor(a.severity);
@@ -73,11 +81,11 @@ export default function AlertsPage() {
                   <span className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full ${rc.dot}`} />
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="text-sm font-bold text-slate-800">{a.title}</p>
+                      <p className="text-sm font-bold text-slate-800 dark:text-slate-100">{a.title}</p>
                       {!a.read && <Badge variant="default">new</Badge>}
                     </div>
-                    <p className="mt-1 text-xs text-slate-500">{a.description}</p>
-                    <p className="mt-2 text-[10px] font-medium text-slate-400">
+                    <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{a.description}</p>
+                    <p className="mt-2 text-[10px] font-medium text-slate-400 dark:text-slate-500">
                       {a.district} · {a.timestamp} · <span className="capitalize">{a.category}</span>
                     </p>
                   </div>

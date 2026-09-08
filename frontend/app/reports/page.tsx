@@ -44,11 +44,11 @@ export default function ReportsPage() {
         {REPORTS.map((r) => (
           <Card key={r.title}>
             <CardContent className="p-5">
-              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50 text-primary-600">
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50 text-primary-600 dark:bg-primary-500/10 dark:text-primary-400">
                 <r.icon className="h-5 w-5" />
               </div>
-              <p className="text-sm font-bold text-slate-800">{r.title}</p>
-              <p className="mt-1 text-xs text-slate-400">{r.desc}</p>
+              <p className="text-sm font-bold text-slate-800 dark:text-slate-100">{r.title}</p>
+              <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">{r.desc}</p>
               <Button variant="outline" size="sm" className="mt-4 w-full gap-1.5">
                 <Download className="h-3.5 w-3.5" /> Download PDF
               </Button>
@@ -65,7 +65,7 @@ export default function ReportsPage() {
         <CardContent className="overflow-x-auto pt-0">
           <table className="w-full min-w-[640px] text-left text-xs">
             <thead>
-              <tr className="border-b border-slate-100 text-slate-400">
+              <tr className="border-b border-slate-100 text-slate-400 dark:border-slate-800 dark:text-slate-500">
                 <th className="py-2 font-medium">Farm ID</th>
                 <th className="py-2 font-medium">Village</th>
                 <th className="py-2 font-medium">Crop</th>
@@ -76,13 +76,13 @@ export default function ReportsPage() {
             </thead>
             <tbody>
               {table.map((f) => (
-                <tr key={f.id} className="border-b border-slate-50">
-                  <td className="py-2.5 font-semibold text-slate-700">{f.id}</td>
-                  <td className="py-2.5 text-slate-500">{f.village}</td>
-                  <td className="py-2.5 text-slate-500">{f.cropType}</td>
-                  <td className="py-2.5 text-slate-500">{f.soilMoisture}%</td>
-                  <td className="py-2.5 capitalize text-slate-500">{f.riskLevel}</td>
-                  <td className="py-2.5 text-slate-500">{f.groundwaterDepthM}</td>
+                <tr key={f.id} className="border-b border-slate-50 dark:border-slate-800/60">
+                  <td className="py-2.5 font-semibold text-slate-700 dark:text-slate-200">{f.id}</td>
+                  <td className="py-2.5 text-slate-500 dark:text-slate-400">{f.village}</td>
+                  <td className="py-2.5 text-slate-500 dark:text-slate-400">{f.cropType}</td>
+                  <td className="py-2.5 text-slate-500 dark:text-slate-400">{f.soilMoisture}%</td>
+                  <td className="py-2.5 capitalize text-slate-500 dark:text-slate-400">{f.riskLevel}</td>
+                  <td className="py-2.5 text-slate-500 dark:text-slate-400">{f.groundwaterDepthM}</td>
                 </tr>
               ))}
             </tbody>

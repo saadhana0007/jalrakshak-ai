@@ -48,15 +48,15 @@ export default function GroundwaterMonitoringPage() {
         <CardContent className="pt-0">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {critical.slice(0, 9).map((f) => (
-              <div key={f.id} className="flex items-center justify-between rounded-xl border border-slate-100 p-3">
+              <div key={f.id} className="flex items-center justify-between rounded-xl border border-slate-100 p-3 dark:border-slate-800">
                 <div>
-                  <p className="text-sm font-semibold text-slate-700">{f.id}</p>
-                  <p className="text-[10px] text-slate-400">{f.district}</p>
+                  <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">{f.id}</p>
+                  <p className="text-[10px] text-slate-400 dark:text-slate-500">{f.district}</p>
                 </div>
                 <Badge variant="high">{f.groundwaterDepthM}m</Badge>
               </div>
             ))}
-            {critical.length === 0 && <p className="text-sm text-slate-400">No farms currently in critical range.</p>}
+            {critical.length === 0 && <p className="text-sm text-slate-400 dark:text-slate-500">No farms currently in critical range.</p>}
           </div>
         </CardContent>
       </Card>

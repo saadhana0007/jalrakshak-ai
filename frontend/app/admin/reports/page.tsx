@@ -44,8 +44,8 @@ export default function AdminReportsPage() {
         {REPORTS.map((r) => (
           <Card key={r.title}>
             <CardContent className="p-5">
-              <p className="text-sm font-bold text-slate-800">{r.title}</p>
-              <p className="mt-1 text-xs text-slate-400">{r.desc}</p>
+              <p className="text-sm font-bold text-slate-800 dark:text-slate-100">{r.title}</p>
+              <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">{r.desc}</p>
               <Button variant="outline" size="sm" className="mt-4 w-full gap-1.5">
                 <Download className="h-3.5 w-3.5" /> Download PDF
               </Button>

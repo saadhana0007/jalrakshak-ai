@@ -31,7 +31,7 @@ export default function NdviGrid({
 
   return (
     <div
-      className="grid overflow-hidden rounded-xl border border-slate-200"
+      className="grid overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800"
       style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
     >
       {cells.map((v, i) => (

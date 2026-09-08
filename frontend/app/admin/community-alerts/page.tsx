@@ -32,15 +32,15 @@ export default function AdminCommunityAlertsPage() {
             {clusters.map((d) => {
               const alert = communityAlertFor(d.name);
               return (
-                <div key={d.name} className="rounded-xl border border-red-200 bg-red-50 p-4">
-                  <div className="mb-1.5 flex items-center gap-1.5 text-red-700">
+                <div key={d.name} className="rounded-xl border border-red-200 bg-red-50 p-4 dark:border-red-500/20 dark:bg-red-500/5">
+                  <div className="mb-1.5 flex items-center gap-1.5 text-red-700 dark:text-red-400">
                     <AlertTriangle className="h-4 w-4" />
                     <p className="text-xs font-bold uppercase">{d.name}</p>
                   </div>
-                  <p className="text-xs text-slate-600">
+                  <p className="text-xs text-slate-600 dark:text-slate-300">
                     {alert.highRiskFarms} of {alert.farmsMonitored} farms flagged for abnormal moisture decline.
                   </p>
-                  <div className="mt-2 flex gap-3 text-[10px] text-slate-500">
+                  <div className="mt-2 flex gap-3 text-[10px] text-slate-500 dark:text-slate-400">
                     <span className="flex items-center gap-1"><TrendingDown className="h-3 w-3" /> {alert.rainfallDeficitPct}% deficit</span>
                     <span className="flex items-center gap-1"><Thermometer className="h-3 w-3" /> +{alert.tempAnomalyC}°C</span>
                   </div>
@@ -60,12 +60,12 @@ export default function AdminCommunityAlertsPage() {
           {ALERTS.map((a) => {
             const rc = riskColor(a.severity);
             return (
-              <div key={a.id} className="flex items-center justify-between rounded-xl border border-slate-100 p-3">
+              <div key={a.id} className="flex items-center justify-between rounded-xl border border-slate-100 p-3 dark:border-slate-800">
                 <div className="flex items-center gap-2.5">
                   <span className={`h-2.5 w-2.5 rounded-full ${rc.dot}`} />
                   <div>
-                    <p className="text-xs font-semibold text-slate-700">{a.title}</p>
-                    <p className="text-[10px] text-slate-400">{a.district} · {a.timestamp}</p>
+                    <p className="text-xs font-semibold text-slate-700 dark:text-slate-200">{a.title}</p>
+                    <p className="text-[10px] text-slate-400 dark:text-slate-500">{a.district} · {a.timestamp}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">

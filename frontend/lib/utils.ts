@@ -22,13 +22,37 @@ export function formatCompact(n: number): string {
 export const riskColor = (level: "low" | "medium" | "high" | "critical") => {
   switch (level) {
     case "low":
-      return { text: "text-emerald-600", bg: "bg-emerald-50", ring: "ring-emerald-200", dot: "bg-emerald-500", solid: "bg-emerald-500" };
+      return {
+        text: "text-emerald-600 dark:text-emerald-400",
+        bg: "bg-emerald-50 dark:bg-emerald-500/10",
+        ring: "ring-emerald-200 dark:ring-emerald-500/30",
+        dot: "bg-emerald-500",
+        solid: "bg-emerald-500",
+      };
     case "medium":
-      return { text: "text-amber-600", bg: "bg-amber-50", ring: "ring-amber-200", dot: "bg-amber-500", solid: "bg-amber-500" };
+      return {
+        text: "text-amber-600 dark:text-amber-400",
+        bg: "bg-amber-50 dark:bg-amber-500/10",
+        ring: "ring-amber-200 dark:ring-amber-500/30",
+        dot: "bg-amber-500",
+        solid: "bg-amber-500",
+      };
     case "high":
-      return { text: "text-red-600", bg: "bg-red-50", ring: "ring-red-200", dot: "bg-red-500", solid: "bg-red-500" };
+      return {
+        text: "text-red-600 dark:text-red-400",
+        bg: "bg-red-50 dark:bg-red-500/10",
+        ring: "ring-red-200 dark:ring-red-500/30",
+        dot: "bg-red-500",
+        solid: "bg-red-500",
+      };
     case "critical":
-      return { text: "text-red-800", bg: "bg-red-100", ring: "ring-red-300", dot: "bg-red-700", solid: "bg-red-700" };
+      return {
+        text: "text-red-800 dark:text-red-300",
+        bg: "bg-red-100 dark:bg-red-500/20",
+        ring: "ring-red-300 dark:ring-red-500/40",
+        dot: "bg-red-700",
+        solid: "bg-red-700",
+      };
   }
 };
 

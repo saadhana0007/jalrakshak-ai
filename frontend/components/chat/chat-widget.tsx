@@ -51,6 +51,8 @@ function mockReply(query: string, lang: string): string {
 }
 
 export default function ChatWidget() {
+  const theme = useAppStore((s) => s.theme);
+  const themeClass = theme === "dark" ? "dark" : "";
   const [open, setOpen] = useState(false);
   const [lang, setLang] = useState("en");
   const [showLangMenu, setShowLangMenu] = useState(false);
@@ -101,7 +103,7 @@ export default function ChatWidget() {
   }
 
   return (
-    <>
+    <div className={themeClass}>
       <button
         onClick={() => setOpen((o) => !o)}
         className={cn(
@@ -113,7 +115,7 @@ export default function ChatWidget() {
       </button>
 
       {open && (
-        <div className="fixed bottom-24 right-6 z-40 flex h-[520px] w-[360px] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+        <div className="fixed bottom-24 right-6 z-40 flex h-[520px] w-[360px] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900">
           <div className="flex items-center justify-between bg-gradient-to-r from-primary-600 to-accent-600 px-4 py-3.5 text-white">
             <div className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
@@ -133,7 +135,7 @@ export default function ChatWidget() {
                 {LANGS.find((l) => l.code === lang)?.label}
               </button>
               {showLangMenu && (
-                <div className="absolute right-0 top-8 w-28 rounded-lg border border-slate-200 bg-white py-1 shadow-lg">
+                <div className="absolute right-0 top-8 w-28 rounded-lg border border-slate-200 bg-white py-1 shadow-lg dark:border-slate-700 dark:bg-slate-800">
                   {LANGS.map((l) => (
                     <button
                       key={l.code}
@@ -141,7 +143,7 @@ export default function ChatWidget() {
                         setLang(l.code);
                         setShowLangMenu(false);
                       }}
-                      className="block w-full px-3 py-1.5 text-left text-xs text-slate-600 hover:bg-slate-50"
+                      className="block w-full px-3 py-1.5 text-left text-xs text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-700"
                     >
                       {l.label}
                     </button>
@@ -151,7 +153,7 @@ export default function ChatWidget() {
             </div>
           </div>
 
-          <div className="flex-1 space-y-3 overflow-y-auto bg-slate-50 p-4">
+          <div className="flex-1 space-y-3 overflow-y-auto bg-slate-50 p-4 dark:bg-slate-950/50">
             {messages.map((m) => (
               <div key={m.id} className={cn("flex", m.role === "user" ? "justify-end" : "justify-start")}>
                 <div
@@ -159,7 +161,7 @@ export default function ChatWidget() {
                     "max-w-[80%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed",
                     m.role === "user"
                       ? "rounded-br-sm bg-primary-600 text-white"
-                      : "rounded-bl-sm border border-slate-200 bg-white text-slate-700"
+                      : "rounded-bl-sm border border-slate-200 bg-white text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
                   )}
                 >
                   {m.text}
@@ -169,13 +171,13 @@ export default function ChatWidget() {
             <div ref={endRef} />
           </div>
 
-          <div className="border-t border-slate-200 p-2">
+          <div className="border-t border-slate-200 p-2 dark:border-slate-800">
             <div className="mb-2 flex flex-wrap gap-1.5">
               {SAMPLE_QUERIES.map((q) => (
                 <button
                   key={q}
                   onClick={() => send(q)}
-                  className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[10px] text-slate-500 hover:bg-slate-50"
+                  className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[10px] text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700"
                 >
                   {q}
                 </button>
@@ -186,7 +188,9 @@ export default function ChatWidget() {
                 onClick={toggleVoice}
                 className={cn(
                   "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border",
-                  listening ? "animate-pulse-slow border-red-300 bg-red-50 text-red-500" : "border-slate-200 text-slate-400 hover:bg-slate-50"
+                  listening
+                    ? "animate-pulse-slow border-red-300 bg-red-50 text-red-500 dark:border-red-500/40 dark:bg-red-500/10"
+                    : "border-slate-200 text-slate-400 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-500 dark:hover:bg-slate-800"
                 )}
               >
                 <Mic className="h-4 w-4" />
@@ -196,7 +200,7 @@ export default function ChatWidget() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && send()}
                 placeholder="Ask about irrigation, alerts…"
-                className="h-9 flex-1 rounded-xl border border-slate-200 bg-white px-3 text-xs outline-none focus:border-primary-400"
+                className="h-9 flex-1 rounded-xl border border-slate-200 bg-white px-3 text-xs outline-none focus:border-primary-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:placeholder:text-slate-500"
               />
               <button
                 onClick={() => send()}
@@ -208,6 +212,6 @@ export default function ChatWidget() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

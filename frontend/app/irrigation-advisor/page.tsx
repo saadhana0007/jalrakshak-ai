@@ -118,17 +118,17 @@ export default function IrrigationAdvisorPage() {
               <div>
                 <Label>Soil Moisture (%)</Label>
                 <Input type="range" min={0} max={70} value={form.soilMoisture} onChange={(e) => setForm({ ...form, soilMoisture: e.target.value })} />
-                <p className="mt-1 text-right text-xs font-semibold text-slate-500">{form.soilMoisture}%</p>
+                <p className="mt-1 text-right text-xs font-semibold text-slate-500 dark:text-slate-400">{form.soilMoisture}%</p>
               </div>
               <div>
                 <Label>Temperature (°C)</Label>
                 <Input type="range" min={15} max={45} value={form.temperature} onChange={(e) => setForm({ ...form, temperature: e.target.value })} />
-                <p className="mt-1 text-right text-xs font-semibold text-slate-500">{form.temperature}°C</p>
+                <p className="mt-1 text-right text-xs font-semibold text-slate-500 dark:text-slate-400">{form.temperature}°C</p>
               </div>
               <div>
                 <Label>Rainfall Forecast (mm)</Label>
                 <Input type="range" min={0} max={50} value={form.rainfall} onChange={(e) => setForm({ ...form, rainfall: e.target.value })} />
-                <p className="mt-1 text-right text-xs font-semibold text-slate-500">{form.rainfall}mm</p>
+                <p className="mt-1 text-right text-xs font-semibold text-slate-500 dark:text-slate-400">{form.rainfall}mm</p>
               </div>
               <Button type="submit" className="w-full gap-2" disabled={loading}>
                 <Sparkles className="h-4 w-4" /> {loading ? "Analyzing…" : "Get Recommendation"}
@@ -140,7 +140,7 @@ export default function IrrigationAdvisorPage() {
         <div className="lg:col-span-3">
           {!result ? (
             <Card className="flex h-full min-h-[420px] items-center justify-center">
-              <div className="text-center text-slate-400">
+              <div className="text-center text-slate-400 dark:text-slate-500">
                 <Droplets className="mx-auto mb-3 h-10 w-10" />
                 <p className="text-sm font-medium">Run the advisor to see your recommendation</p>
               </div>
@@ -149,22 +149,24 @@ export default function IrrigationAdvisorPage() {
             <Card
               className={cn(
                 "overflow-hidden border-2",
-                result.decision === "Delay Irrigation" ? "border-emerald-200 bg-emerald-50/40" : "border-accent-200 bg-accent-50/40"
+                result.decision === "Delay Irrigation"
+                  ? "border-emerald-200 bg-emerald-50/40 dark:border-emerald-500/20 dark:bg-emerald-500/5"
+                  : "border-accent-200 bg-accent-50/40 dark:border-accent-500/20 dark:bg-accent-500/5"
               )}
             >
               <CardContent className="p-6">
                 <div className="flex items-center gap-2">
                   {result.decision === "Delay Irrigation" ? (
-                    <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+                    <CheckCircle2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
                   ) : (
-                    <Zap className="h-5 w-5 text-accent-600" />
+                    <Zap className="h-5 w-5 text-accent-600 dark:text-accent-400" />
                   )}
-                  <p className="text-xs font-bold uppercase tracking-wide text-slate-500">Recommendation</p>
+                  <p className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Recommendation</p>
                   <Badge variant={source === "live" ? "default" : "neutral"} className="ml-auto">
                     {source === "live" ? "Live AI model" : "Local fallback"}
                   </Badge>
                 </div>
-                <h2 className="mt-2 text-3xl font-extrabold text-slate-800">{result.decision}</h2>
+                <h2 className="mt-2 text-3xl font-extrabold text-slate-800 dark:text-slate-100">{result.decision}</h2>
 
                 <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
                   <Metric icon={Droplets} label="Water Requirement" value={`${result.waterRequirementLitres.toLocaleString("en-IN")} L`} />
@@ -174,13 +176,13 @@ export default function IrrigationAdvisorPage() {
                 </div>
 
                 <div className="mt-5">
-                  <p className="mb-1.5 text-xs font-semibold text-slate-500">Confidence Score</p>
+                  <p className="mb-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400">Confidence Score</p>
                   <Progress value={result.confidencePct} />
                 </div>
 
-                <div className="mt-6 rounded-xl border border-slate-200 bg-white p-4">
-                  <p className="mb-1 text-xs font-bold uppercase text-slate-400">Reasoning Summary</p>
-                  <p className="text-sm leading-relaxed text-slate-600">{result.reasoning}</p>
+                <div className="mt-6 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900/60">
+                  <p className="mb-1 text-xs font-bold uppercase text-slate-400 dark:text-slate-500">Reasoning Summary</p>
+                  <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">{result.reasoning}</p>
                 </div>
               </CardContent>
             </Card>
@@ -193,10 +195,10 @@ export default function IrrigationAdvisorPage() {
 
 function Metric({ icon: Icon, label, value, highlight }: { icon: any; label: string; value: string; highlight?: boolean }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-3">
-      <Icon className={cn("mb-1.5 h-4 w-4", highlight ? "text-emerald-600" : "text-slate-400")} />
-      <p className={cn("text-base font-bold", highlight ? "text-emerald-600" : "text-slate-800")}>{value}</p>
-      <p className="text-[10px] font-medium uppercase text-slate-400">{label}</p>
+    <div className="rounded-xl border border-slate-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-900">
+      <Icon className={cn("mb-1.5 h-4 w-4", highlight ? "text-emerald-600 dark:text-emerald-400" : "text-slate-400 dark:text-slate-500")} />
+      <p className={cn("text-base font-bold", highlight ? "text-emerald-600 dark:text-emerald-400" : "text-slate-800 dark:text-slate-100")}>{value}</p>
+      <p className="text-[10px] font-medium uppercase text-slate-400 dark:text-slate-500">{label}</p>
     </div>
   );
 }

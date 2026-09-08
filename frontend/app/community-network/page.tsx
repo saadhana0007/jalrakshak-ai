@@ -43,25 +43,25 @@ export default function CommunityNetworkPage() {
             {highRiskDistricts.map((d) => {
               const alert = communityAlertFor(d.name);
               return (
-                <div key={d.name} className="rounded-xl border border-red-200 bg-red-50 p-4">
-                  <div className="mb-1.5 flex items-center gap-1.5 text-red-700">
+                <div key={d.name} className="rounded-xl border border-red-200 bg-red-50 p-4 dark:border-red-500/20 dark:bg-red-500/5">
+                  <div className="mb-1.5 flex items-center gap-1.5 text-red-700 dark:text-red-400">
                     <AlertTriangle className="h-4 w-4" />
                     <p className="text-xs font-bold uppercase">High Risk Alert</p>
                   </div>
-                  <p className="text-sm font-semibold text-slate-700">
+                  <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
                     {alert.highRiskFarms} farms within 5 km showing abnormal moisture decline.
                   </p>
                   <div className="mt-2.5 grid grid-cols-2 gap-2 text-xs">
-                    <div className="rounded-lg bg-white/70 p-2">
-                      <p className="flex items-center gap-1 text-slate-400"><TrendingDown className="h-3 w-3" /> Rainfall Deficit</p>
-                      <p className="font-bold text-slate-700">{alert.rainfallDeficitPct}%</p>
+                    <div className="rounded-lg bg-white/70 p-2 dark:bg-slate-900/50">
+                      <p className="flex items-center gap-1 text-slate-400 dark:text-slate-500"><TrendingDown className="h-3 w-3" /> Rainfall Deficit</p>
+                      <p className="font-bold text-slate-700 dark:text-slate-200">{alert.rainfallDeficitPct}%</p>
                     </div>
-                    <div className="rounded-lg bg-white/70 p-2">
-                      <p className="flex items-center gap-1 text-slate-400"><Thermometer className="h-3 w-3" /> Temp Anomaly</p>
-                      <p className="font-bold text-slate-700">+{alert.tempAnomalyC}°C</p>
+                    <div className="rounded-lg bg-white/70 p-2 dark:bg-slate-900/50">
+                      <p className="flex items-center gap-1 text-slate-400 dark:text-slate-500"><Thermometer className="h-3 w-3" /> Temp Anomaly</p>
+                      <p className="font-bold text-slate-700 dark:text-slate-200">+{alert.tempAnomalyC}°C</p>
                     </div>
                   </div>
-                  <p className="mt-2.5 text-[11px] font-medium text-red-600">
+                  <p className="mt-2.5 text-[11px] font-medium text-red-600 dark:text-red-400">
                     Recommended Action: Reduce irrigation intervals in {d.name} block.
                   </p>
                 </div>
@@ -80,13 +80,13 @@ export default function CommunityNetworkPage() {
           {districtRiskSummary.map((d) => {
             const rc = riskColor(d.riskLevel);
             return (
-              <div key={d.name} className="rounded-xl border border-slate-100 p-4">
+              <div key={d.name} className="rounded-xl border border-slate-100 p-4 dark:border-slate-800">
                 <div className="mb-1.5 flex items-center justify-between">
-                  <p className="text-sm font-bold text-slate-700">{d.name}</p>
+                  <p className="text-sm font-bold text-slate-700 dark:text-slate-200">{d.name}</p>
                   <Badge variant={d.riskLevel}>{d.riskLevel}</Badge>
                 </div>
-                <p className="flex items-center gap-1 text-xs text-slate-400"><Users className="h-3 w-3" /> {d.farmCount} farms monitored</p>
-                <p className="mt-1 text-xs text-slate-400">Stress incidence: <strong className="text-slate-600">{d.stressPct}%</strong></p>
+                <p className="flex items-center gap-1 text-xs text-slate-400 dark:text-slate-500"><Users className="h-3 w-3" /> {d.farmCount} farms monitored</p>
+                <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">Stress incidence: <strong className="text-slate-600 dark:text-slate-300">{d.stressPct}%</strong></p>
               </div>
             );
           })}
@@ -98,11 +98,11 @@ export default function CommunityNetworkPage() {
 
 function LegendCard({ color, label, count }: { color: string; label: string; count: number }) {
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4">
+    <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
       <span className={`h-3 w-3 rounded-full ${color}`} />
       <div>
-        <p className="text-lg font-bold text-slate-800">{count}</p>
-        <p className="text-xs text-slate-400">{label}</p>
+        <p className="text-lg font-bold text-slate-800 dark:text-slate-100">{count}</p>
+        <p className="text-xs text-slate-400 dark:text-slate-500">{label}</p>
       </div>
     </div>
   );

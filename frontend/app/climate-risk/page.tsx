@@ -52,7 +52,9 @@ export default function ClimateRiskPage() {
             key={h}
             onClick={() => setHorizon(h)}
             className={`rounded-xl px-4 py-2 text-sm font-semibold transition-colors ${
-              horizon === h ? "bg-primary-600 text-white shadow-soft" : "border border-slate-200 bg-white text-slate-500 hover:bg-slate-50"
+              horizon === h
+                ? "bg-primary-600 text-white shadow-soft"
+                : "border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800"
             }`}
           >
             {h} Days
@@ -71,7 +73,7 @@ export default function ClimateRiskPage() {
                 </div>
                 <GaugeGraphic value={c.score} label="Risk score" color={c.color} />
                 <Badge variant={c.level} className="mt-3">{c.level} severity</Badge>
-                <p className="mt-2 text-xs text-slate-400">Confidence: {risk.confidencePct}%</p>
+                <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">Confidence: {risk.confidencePct}%</p>
               </CardContent>
             </Card>
           );
@@ -93,16 +95,16 @@ export default function ClimateRiskPage() {
         />
       </div>
 
-      <Card className="mt-6 border-red-200 bg-red-50/40">
+      <Card className="mt-6 border-red-200 bg-red-50/40 dark:border-red-500/20 dark:bg-red-500/5">
         <CardContent className="flex items-start gap-3 p-5">
-          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-red-500" />
+          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-red-500 dark:text-red-400" />
           <div>
-            <p className="text-sm font-bold text-red-700">
+            <p className="text-sm font-bold text-red-700 dark:text-red-300">
               {risk.droughtLevel === "high" || risk.droughtLevel === "critical"
                 ? "Elevated drought risk detected"
                 : "Conditions within manageable range"}
             </p>
-            <p className="mt-1 text-xs text-red-600/80">
+            <p className="mt-1 text-xs text-red-600/80 dark:text-red-400/80">
               Based on rainfall deficit trends and vegetation indices, review irrigation scheduling and consider
               water-conserving practices over the next {horizon} days.
             </p>
