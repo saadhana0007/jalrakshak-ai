@@ -1,7 +1,9 @@
 // Thin client for the FastAPI backend. Every call has a client-side mock
 // fallback (see lib/ai.ts) so the UI keeps working even if the backend
 // isn't running — but when it IS running, real requests go over the wire.
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:8000";
+// Defaults to the live deployed backend; override with NEXT_PUBLIC_API_BASE
+// (e.g. in .env.local) to point at a local `uvicorn` instance instead.
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "https://jalrakshak-ai-backend.vercel.app";
 
 async function apiFetch<T>(path: string, options: RequestInit = {}, token?: string | null): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
