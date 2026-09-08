@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DashboardShell from "@/components/layout/dashboard-shell";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input, Label, Select } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CROPS, getFarmById } from "@/lib/mock-data";
 import { predictWaterDemand, type WaterDemandOutput } from "@/lib/ai";
-import { predictWaterDemandApi } from "@/lib/api";
+import { predictWaterDemandApi, getLiveWeather } from "@/lib/api";
 import { useAppStore } from "@/lib/store";
-import { Droplets, Clock, Gauge, Sparkles, Zap, CheckCircle2, XCircle } from "lucide-react";
+import { Droplets, Clock, Gauge, Sparkles, Zap, CheckCircle2, XCircle, Satellite } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -26,9 +26,29 @@ export default function IrrigationAdvisorPage() {
     temperature: "31",
     rainfall: "21",
   });
+  const [liveWeatherLoaded, setLiveWeatherLoaded] = useState(false);
   const [result, setResult] = useState<WaterDemandOutput | null>(null);
   const [source, setSource] = useState<"live" | "local">("local");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    getLiveWeather(farm.id)
+      .then((w) => {
+        if (cancelled) return;
+        setForm((f) => ({
+          ...f,
+          temperature: String(Math.round(w.current.temp_c)),
+          rainfall: String(Math.round(w.next_14h_rainfall_mm)),
+        }));
+        setLiveWeatherLoaded(true);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [farm.id]);
 
   async function run(e: React.FormEvent) {
     e.preventDefault();
@@ -71,8 +91,17 @@ export default function IrrigationAdvisorPage() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle>Inputs</CardTitle>
-            <CardDescription>Adjust conditions to see a live recommendation</CardDescription>
+            <div className="flex items-center justify-between">
+              <CardTitle>Inputs</CardTitle>
+              {liveWeatherLoaded && (
+                <Badge variant="default" className="gap-1">
+                  <Satellite className="h-3 w-3" /> Live weather
+                </Badge>
+              )}
+            </div>
+            <CardDescription>
+              {liveWeatherLoaded ? "Temperature & rainfall prefilled from live conditions — adjust freely" : "Adjust conditions to see a live recommendation"}
+            </CardDescription>
           </CardHeader>
           <CardContent className="pt-0">
             <form onSubmit={run} className="space-y-4">

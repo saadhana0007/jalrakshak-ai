@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import DashboardShell from "@/components/layout/dashboard-shell";
 import KpiCard from "@/components/dashboard/kpi-card";
 import { LineTrendCard, AreaTrendCard, BarCompareCard } from "@/components/charts/chart-cards";
@@ -7,23 +8,56 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import {
   Droplets, Thermometer, Waves, Gauge, CloudRain, ShieldAlert,
-  Sparkles, CheckCircle2, ArrowRight, Bell,
+  Sparkles, CheckCircle2, ArrowRight, Bell, Satellite,
 } from "lucide-react";
 import {
   getFarmById, generateSoilMoistureTrend, generateRainfallForecast,
   generateCropHealthTrend, generateWaterUsageTrend, ALERTS,
 } from "@/lib/mock-data";
+import { getLiveWeather, type LiveWeather } from "@/lib/api";
+import { predictWaterDemand } from "@/lib/ai";
 import { useAppStore } from "@/lib/store";
 import { riskColor } from "@/lib/utils";
+
+const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default function FarmerDashboardPage() {
   const selectedFarmId = useAppStore((s) => s.selectedFarmId);
   const farm = getFarmById(selectedFarmId);
   const soilTrend = generateSoilMoistureTrend();
-  const rainfall = generateRainfallForecast();
   const cropHealth = generateCropHealthTrend();
   const waterUsage = generateWaterUsageTrend();
-  const rc = riskColor(farm.riskLevel);
+
+  const [weather, setWeather] = useState<LiveWeather | null>(null);
+  const [weatherError, setWeatherError] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    setWeather(null);
+    setWeatherError(false);
+    getLiveWeather(farm.id)
+      .then((w) => !cancelled && setWeather(w))
+      .catch(() => !cancelled && setWeatherError(true));
+    return () => {
+      cancelled = true;
+    };
+  }, [farm.id]);
+
+  const rainfallChartData = weather
+    ? weather.daily.map((d) => ({
+        day: DAY_LABELS[new Date(d.date).getDay()],
+        forecastMm: Math.round(d.precipitation_mm),
+      }))
+    : generateRainfallForecast();
+
+  const next14hRain = weather?.next_14h_rainfall_mm ?? 21;
+  const recommendation = predictWaterDemand({
+    crop: farm.cropType,
+    areaAcres: farm.areaAcres,
+    soilMoisturePct: farm.soilMoisture,
+    temperatureC: weather?.current.temp_c ?? 29,
+    rainfallForecastMm: next14hRain,
+  });
 
   return (
     <DashboardShell role="farmer" title="Dashboard" subtitle={`${farm.village}, ${farm.district} · ${farm.cropType}`}>
@@ -31,9 +65,16 @@ export default function FarmerDashboardPage() {
         {/* KPI ROW */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <KpiCard icon={Droplets} label="Soil Moisture" value={farm.soilMoisture} unit="%" trend={2.4} accent="primary" />
-          <KpiCard icon={Thermometer} label="Current Weather" value="29" unit="°C" sub="Humidity 64% · Clear sky" accent="amber" />
+          <KpiCard
+            icon={Thermometer}
+            label="Current Weather"
+            value={weather ? Math.round(weather.current.temp_c) : "—"}
+            unit="°C"
+            sub={weather ? `Humidity ${weather.current.humidity_pct}% · ${weather.current.condition}` : weatherError ? "Live weather unavailable" : "Loading live weather…"}
+            accent="amber"
+          />
           <KpiCard icon={Waves} label="Groundwater Status" value={farm.groundwaterDepthM} unit="m depth" trend={-1.2} accent="accent" />
-          <KpiCard icon={Gauge} label="Water Requirement" value="1,850" unit="L/acre" sub="Next irrigation window" accent="primary" />
+          <KpiCard icon={Gauge} label="Water Requirement" value={recommendation.waterRequirementLitres.toLocaleString("en-IN")} unit="L" sub="Next irrigation window" accent="primary" />
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <KpiCard
@@ -44,7 +85,7 @@ export default function FarmerDashboardPage() {
             sub={`${farm.riskLevel.toUpperCase()} risk`}
             accent={farm.riskLevel === "low" ? "primary" : farm.riskLevel === "medium" ? "amber" : "red"}
           />
-          <KpiCard icon={CloudRain} label="Expected Rainfall" value="21" unit="mm" sub="Within next 14 hours" accent="accent" />
+          <KpiCard icon={CloudRain} label="Expected Rainfall" value={next14hRain} unit="mm" sub="Within next 14 hours" accent="accent" />
           <KpiCard icon={Sparkles} label="NDVI (Vegetation)" value={farm.ndvi.toFixed(2)} sub="Healthy canopy density" accent="primary" />
           <KpiCard icon={Bell} label="Active Alerts" value={ALERTS.filter((a) => !a.read).length} sub="Needs your attention" accent="red" />
         </div>
@@ -58,23 +99,24 @@ export default function FarmerDashboardPage() {
                   <Sparkles className="h-4 w-4" />
                 </div>
                 <p className="text-xs font-bold uppercase tracking-wide text-primary-700">Today's Recommendation</p>
+                <Badge variant={weather ? "default" : "neutral"} className="ml-auto gap-1">
+                  <Satellite className="h-3 w-3" /> {weather ? "Live weather" : "Simulated"}
+                </Badge>
               </div>
-              <h2 className="mt-3 text-2xl font-extrabold text-slate-800">Delay Irrigation</h2>
-              <p className="mt-1 text-sm text-slate-500">
-                Soil moisture is above the critical threshold and rainfall is imminent — irrigating now would waste water.
-              </p>
+              <h2 className="mt-3 text-2xl font-extrabold text-slate-800">{recommendation.decision}</h2>
+              <p className="mt-1 text-sm text-slate-500">{recommendation.reasoning}</p>
               <div className="mt-5 grid grid-cols-3 gap-4">
                 <div>
                   <p className="text-[11px] font-medium uppercase text-slate-400">Expected Rain</p>
-                  <p className="mt-0.5 text-lg font-bold text-slate-800">21mm <span className="text-xs font-medium text-slate-400">in 14h</span></p>
+                  <p className="mt-0.5 text-lg font-bold text-slate-800">{next14hRain}mm <span className="text-xs font-medium text-slate-400">in 14h</span></p>
                 </div>
                 <div>
                   <p className="text-[11px] font-medium uppercase text-slate-400">Water Saved</p>
-                  <p className="mt-0.5 text-lg font-bold text-emerald-600">14,200 L</p>
+                  <p className="mt-0.5 text-lg font-bold text-emerald-600">{recommendation.waterSavedLitres.toLocaleString("en-IN")} L</p>
                 </div>
                 <div>
                   <p className="text-[11px] font-medium uppercase text-slate-400">Confidence</p>
-                  <p className="mt-0.5 text-lg font-bold text-slate-800">92%</p>
+                  <p className="mt-0.5 text-lg font-bold text-slate-800">{recommendation.confidencePct}%</p>
                 </div>
               </div>
               <div className="mt-5 flex items-center gap-3">
@@ -115,8 +157,8 @@ export default function FarmerDashboardPage() {
           <AreaTrendCard title="Soil Moisture Trend" description="Last 14 days" data={soilTrend} xKey="day" dataKey="moisture" color="#10b981" />
           <BarCompareCard
             title="Rainfall Forecast"
-            description="Next 7 days"
-            data={rainfall}
+            description={weather ? "Live 7-day forecast · open-meteo.com" : "Next 7 days (simulated)"}
+            data={rainfallChartData}
             xKey="day"
             series={[{ key: "forecastMm", color: "#3b82f6", name: "Rainfall (mm)" }]}
           />

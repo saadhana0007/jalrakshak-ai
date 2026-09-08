@@ -74,3 +74,22 @@ export async function chatApi(token: string, message: string, language: string) 
     token
   );
 }
+
+export interface LiveWeather {
+  source: string;
+  current: {
+    temp_c: number;
+    humidity_pct: number;
+    precipitation_mm: number;
+    wind_speed_kmph: number;
+    condition: string;
+  };
+  next_14h_rainfall_mm: number;
+  hourly: { time: string; precipitation_mm: number; precipitation_probability_pct: number; temp_c: number }[];
+  daily: { date: string; precipitation_mm: number; precipitation_probability_pct: number; temp_max_c: number; temp_min_c: number }[];
+}
+
+export async function getLiveWeather(farmId: string) {
+  // Public endpoint — no auth token needed.
+  return apiFetch<LiveWeather>(`/weather?farm_id=${encodeURIComponent(farmId)}`);
+}

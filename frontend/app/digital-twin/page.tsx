@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { BarCompareCard } from "@/components/charts/chart-cards";
 import { getFarmById } from "@/lib/mock-data";
 import { simulateDigitalTwin } from "@/lib/ai";
-import { simulateDigitalTwinApi } from "@/lib/api";
+import { simulateDigitalTwinApi, getLiveWeather } from "@/lib/api";
 import { useAppStore } from "@/lib/store";
 import {
   GitBranch, Trophy, Droplets, IndianRupee, Zap, Waves, HeartPulse, Sprout, Leaf, RefreshCw,
@@ -29,13 +29,13 @@ const SCENARIO_LETTER: Record<string, string> = {
   "reduce-water-by-30%": "D",
 };
 
-function localSimulation(farm: ReturnType<typeof getFarmById>) {
+function localSimulation(farm: ReturnType<typeof getFarmById>, temperatureC = 31, rainfallForecastMm = 21) {
   return simulateDigitalTwin({
     crop: farm.cropType,
     areaAcres: farm.areaAcres,
     soilMoisturePct: farm.soilMoisture,
-    temperatureC: 31,
-    rainfallForecastMm: 21,
+    temperatureC,
+    rainfallForecastMm,
     groundwaterDepthM: farm.groundwaterDepthM,
   });
 }
@@ -62,6 +62,7 @@ export default function DigitalTwinPage() {
   const token = useAppStore((s) => s.token);
   const [run, setRun] = useState(0);
   const [source, setSource] = useState<"live" | "local">("local");
+  const [weatherLoaded, setWeatherLoaded] = useState(false);
 
   const localResult = useMemo(() => localSimulation(farm), [farm.id]);
   const [twin, setTwin] = useState(localResult);
@@ -69,14 +70,27 @@ export default function DigitalTwinPage() {
   useEffect(() => {
     let cancelled = false;
     async function load() {
+      let temperatureC = 31;
+      let rainfallForecastMm = 21;
+      try {
+        const w = await getLiveWeather(farm.id);
+        if (!cancelled) {
+          temperatureC = w.current.temp_c;
+          rainfallForecastMm = w.next_14h_rainfall_mm;
+          setWeatherLoaded(true);
+        }
+      } catch {
+        // fall through with default assumptions
+      }
+
       try {
         if (!token) throw new Error("no token");
         const res = await simulateDigitalTwinApi(token, {
           crop: farm.cropType,
           area_acres: farm.areaAcres,
           soil_moisture_pct: farm.soilMoisture,
-          temperature_c: 31,
-          rainfall_forecast_mm: 21,
+          temperature_c: temperatureC,
+          rainfall_forecast_mm: rainfallForecastMm,
           groundwater_depth_m: farm.groundwaterDepthM,
         });
         if (cancelled) return;
@@ -87,7 +101,7 @@ export default function DigitalTwinPage() {
         setSource("live");
       } catch {
         if (cancelled) return;
-        setTwin(localSimulation(farm));
+        setTwin(localSimulation(farm, temperatureC, rainfallForecastMm));
         setSource("local");
       }
     }
@@ -119,6 +133,7 @@ export default function DigitalTwinPage() {
           </div>
         </div>
         <div className="flex items-center gap-2">
+          {weatherLoaded && <Badge variant="default">Live weather</Badge>}
           <Badge variant={source === "live" ? "default" : "neutral"}>
             {source === "live" ? "Live AI model" : "Local fallback"}
           </Badge>
